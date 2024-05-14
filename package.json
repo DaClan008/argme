@@ -1,0 +1,31 @@
+{
+  "name": "argme",
+  "version": "1.0.0",
+  "description": "Argument parser for comandline commands.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaClan008/argme.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest --coverage"
+  },
+  "type": "module",
+  "keywords": [
+    "arguments",
+    "cmd",
+    "commandline",
+    "command",
+    "parser"
+  ],
+  "author": "Jan Lehmkuhl <DaClan008@users.noreply.github.com>",
+  "bugs": {
+    "url": "https://github.com/DaClan008/argme.git/issues"
+  },
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/DaClan008/argme.git#readme",
+  "devDependencies": {
+    "@vitest/coverage-v8": "^1.6.0",
+    "vitest": "^1.6.0"
+  }
+}

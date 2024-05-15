@@ -15,13 +15,13 @@ U should be able to get a json object back that looks as follows, when using the
 
 ```json
 {
-    _: ['alternativeValues'],
-    a: true,
-    b: true,
-    c: true,
-    d: 5,
-    e: true,
-    property: value
+    "_": ['alternativeValues'],
+    "a": true,
+    "b": true,
+    "c": true,
+    "d": 5,
+    "e": true,
+    "property": "value"
 }
 ```
 

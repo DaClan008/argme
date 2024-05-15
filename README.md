@@ -1,3 +1,7 @@
+[![npm](https://img.shields.io/npm/v/argme)](https://img.shields.io/npm/v/argme)
+![npm](https://img.shields.io/npm/dw/argme)
+![NPM](https://img.shields.io/npm/l/argme)
+
 # aragme
 An argument parser for process.argv in node.js with optional settings.
 

@@ -15,7 +15,7 @@ U should be able to get a json object back that looks as follows, when using the
 
 ```json
 {
-    _: ['alternativeValues'],
+    _: ["alternativeValues"],
     a: true,
     b: true,
     c: true,
@@ -64,15 +64,15 @@ will deliver the following result:
 ```json
 // console.log(args)
 {
-    _: [],
-    a: true,
-    def: "value"
+    "_": [],
+    "a": true,
+    "def": "value"
 }
 // console.log(argOptions)
 {
-    a: true,
-    b: false,
-    c: "yes"
+    "a": true,
+    "b": false,
+    "c": "yes"
 }
 ```
 
@@ -115,16 +115,16 @@ the output of the above will be
 ```json
 // on parsed(args);
 {
-    _: ['otherObject'],
-    a: true,
-    b: true,
-    property: "value"
+    "_": ["otherObject"],
+    "a": true,
+    "b": true,
+    "property": "value"
 }
 // on parsedOptions(args)
 {
-    a: true,
-    b: true, 
-    c: "yes"
+    "a": true,
+    "b": true, 
+    "c": "yes"
 }
 ```
 ## Options

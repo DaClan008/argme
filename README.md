@@ -1,9 +1,12 @@
+
+
+# aragme
+
 [![Unit Tests](https://github.com/DaClan008/argme/actions/workflows/testing.yml/badge.svg)](https://github.com/DaClan008/argme/actions/workflows/testing.yml)
 [![npm](https://img.shields.io/npm/v/argme)](https://img.shields.io/npm/v/argme)
 ![npm](https://img.shields.io/npm/dw/argme)
 ![NPM](https://img.shields.io/npm/l/argme)
 
-# aragme
 An argument parser for process.argv in node.js with optional settings.
 
 By default, if any node app is started with some arguments i.e

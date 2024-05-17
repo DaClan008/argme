@@ -9,7 +9,7 @@
   "main": "index.js",
   "scripts": {
     "test": "vitest --coverage",
-    "test-CI": "vitest --coverage --coverage.reporter=json-summary"
+    "test-CI": "vitest run --coverage --coverage.reporter=json-summary"
   },
   "type": "module",
   "keywords": [

@@ -1,9 +1,11 @@
+# aragme
 [![Unit Tests](https://github.com/DaClan008/argme/actions/workflows/testing.yml/badge.svg)](https://github.com/DaClan008/argme/actions/workflows/testing.yml)
+![Coverage](https://img.shields.io/badge/code--coverage-20%-brightgreen?style=flat-square&logo=github)
 [![npm](https://img.shields.io/npm/v/argme)](https://img.shields.io/npm/v/argme)
 ![npm](https://img.shields.io/npm/dw/argme)
 ![NPM](https://img.shields.io/npm/l/argme)
 
-# aragme
+
 An argument parser for process.argv in node.js with optional settings.
 
 By default, if any node app is started with some arguments i.e
@@ -36,6 +38,7 @@ npm install argme
 
 ## Usage
 
+### Conlsole log
 General Usage
 
 ```js
@@ -134,10 +137,10 @@ Options are there to ensure that the returned object contain a minimum set of "r
 
 Property | Type | Description |
 ---------|------|-------|
-properties | string \| object \| string[] | This sets out the minimum properties a result should have.  This is **required** property.  The **string** can be a comma separated list of properties, or it can be a similar string as what would be provided for in a cli call (i.e. -a --ab=123...),.  The array should be strictly a string array and the values can be similar to that which can be found in *process.argv*.  The object can be any type of object that is one level deep.
+properties | string \| object \| string[] | This sets out the **required** properties a result should have.  The **string** can be a comma separated list of properties, or it can be a similar string as what would be provided for in a cli call (i.e. -a --ab=123...),.  The array should be strictly a string array and the values can be similar to that which can be found in *process.argv*.  The object can be any type of object that is one level deep.
 parseString | boolean | This is only applicable if properties is a type of **string**.  If set to true, the string composition looks similar to a string provided through a cli application (i.e. -a  -ab=123...) and will therefore have no '**,**'.  If not set, the string will be assumed to be a comma separated string.
 ignoreCase | boolean | If set the name as specified in the properties object will always be used even if the supplied argument property is spelled the same but with different casing.  Therefore, if a property called "Abc" is required in terms of the properties option and the arguments passed has a property called "abc", the the property name returned will be "Abc" wit the value provided for by the arguments under property "abc".
 strict | boolean | If set to true, the returned object's properties will be limited to those provided for by the options` properties property.
 returnUndefinedObject | boolean | This is used when the required property in terms of properties option above is a type of boolean.  If no value is supplied in the arguments the default value returned will be false, unless this option is set to true, then a { undefined: true } object will be returned.
 
-All options except the properties option is optional.  Therefore the default values of all is set to false.
+

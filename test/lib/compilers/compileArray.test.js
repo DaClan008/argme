@@ -1,5 +1,5 @@
 import { describe, expect, it} from 'vitest';
-import { compileArray } from '../../src/lib/compileArray';
+import { compileArray } from '../../../src/lib/compilers/compileArray.js';
 
 describe("compileArray", () => {
     it("Should be able to compile a simple array object", () => {

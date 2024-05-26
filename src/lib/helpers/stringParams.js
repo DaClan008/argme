@@ -32,10 +32,11 @@ export class StringParams{
     parse(val, valueCheck) {
         if(this.#start < 0 || this.#end < 0) return undefined;
         let result = val.substring(this.#start, val.length === this.#end + 1 ? undefined : this.#end + 1);
+        result = result.trim();
         if (valueCheck) {
             result = sanitizeValue(result);
         }
-        if (/^['"].*['"]/.test(result)) result = result.substring(1, result.length - 1);
+        if (/^('.*'|".*")$/.test(result)) result = result.substring(1, result.length - 1);
         return result;
     }
 }

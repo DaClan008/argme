@@ -1,12 +1,14 @@
 import { compileArray } from "./compileArray.js";
-import { StringParams } from './stringParamsObject.js';
-import { findNextProperty, getReturnObject } from './helpers.js';
-import { states } from './constants.js';
+import { StringParams } from '../helpers/stringParams.js';
+import { encapsulate, findNextProperty, getReturnObject } from '../helpers/helpers.js';
+import { states } from '../helpers/constants.js';
 
 export function compileJson(val, original, objReturn) {
+    /* v8 ignore next - we do not have to test no value returns */
+    if (val == void 0 || typeof val !== 'string') return undefined;
     val = val.trim();
     if (val === '') return getReturnObject(objReturn, {}, val, original, 0);
-    if (/^\{.*\}$/.test(val)) return compileJson(val.substring(1, val.length - 1), val, objReturn);
+    if (encapsulate(val, ['{',"}"],"'",'"')) return compileJson(val.substring(1, val.length - 1).trim(), val, objReturn);
 
     const openBracketAtStart = val[0] === '{';
     const prop = new StringParams();

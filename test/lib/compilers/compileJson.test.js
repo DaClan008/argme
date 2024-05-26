@@ -1,5 +1,5 @@
 import { describe, expect, it} from 'vitest';
-import { compileJson } from '../../src/lib/compileJson';
+import { compileJson } from '../../../src/lib/compilers/compileJson.js';
 
 describe('jsonParse', () =>{
     it('should be able to handle empty value objects without {}', () => {

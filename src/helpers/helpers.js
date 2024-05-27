@@ -86,15 +86,6 @@ export function getPropertyType (value) {
 
     return propertyType.None;
 }
-export function testResult(result) {
-    if (result._ != void 0 && result._.length > 0) return result;
-    const optTest = compileOptions({...result});
-    if (optTest == void 0) return result;
-    const resTest = composer(undefined, optTest);
-    return resTest != void 0 && (resTest._?.length > 0 || Object.keys(resTest).length > 1) ?
-        resTest :
-        result;
-}
 /**
  * 
  * @param {string[] | string[][]} options 

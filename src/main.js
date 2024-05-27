@@ -1,4 +1,4 @@
-import { compileRequiredProperties } from "./compilers/compileOptions.js";
+import { compileRequiredProperties, compileOptions } from "./compilers/compileOptions.js";
 import { compileArgs } from "./compilers/compileArgs.js";
 
 
@@ -47,6 +47,22 @@ export function composer(args, options) {
     return result;
 }
 
+/**
+ * See if an object is a normal object or a type of an options object.  An option object will not have any properties under _ and will contain only 
+ * option properties.  This should be used when it is uncertain if the object passed as args is an options object or not.  If it is then
+ * the properties contained in process.argv will be used to build an object.
+ * @param {Options, object} testObject The object that should be tested.
+ * @returns {object} The object or options object.
+ */
+export function testOptions(testObject) {
+    if ((testObject._ != void 0 && testObject._.length > 0) || process.argv.length <= 2) return testObject;
+    const optTest = compileOptions({...testObject});
+    if (optTest == void 0) return testObject;
+    const resTest = composer(undefined, optTest);
+    return resTest != void 0 && (resTest._?.length > 0 || Object.keys(resTest).length > 1) ?
+        resTest :
+        testObject;
+}
 
 /**
  * @typedef Options

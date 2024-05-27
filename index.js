@@ -1,7 +1,6 @@
-import { composer } from './src/main.js';
+import { composer, testOptions } from './src/main.js';
 import { compileCliString } from './src/compilers/compileCliString.js';
 import { compileOptions } from './src/compilers/compileOptions.js';
-import { testResult } from './src/helpers/helpers.js';
 
 /**
  * @deprecated at version 2.  Should use argme([options]) instead
@@ -41,7 +40,7 @@ export function argme(args, options) {
     else {
         // args should be a string array at this point, but it could also have come from a string originally
         result = composer(args);
-        result = testResult(result);
+        result = testOptions(result);
     }
 
     if (result == void 0 || result['^'] == void 0 || result['*'] == void 0) return result;

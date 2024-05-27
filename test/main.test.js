@@ -1,5 +1,5 @@
 import { describe, expect, it} from 'vitest';
-import { composer } from '../../src/main.js';
+import { composer } from '../src/main.js';
 
 describe('composer', () => {
     // possible breaking change.  previously returned abc as string

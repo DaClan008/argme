@@ -1,5 +1,5 @@
 import { describe, expect, it} from 'vitest';
-import { compileArgs } from "../../../src/lib/compilers/compileArgs.js";
+import { compileArgs } from "../../src/compilers/compileArgs.js";
 
 describe('compileArgs', () => {
     it('should set short name values to the following provided number or boolean', () => {

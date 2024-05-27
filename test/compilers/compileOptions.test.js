@@ -1,5 +1,5 @@
 import { describe, expect, it} from 'vitest';
-import { compileRequiredProperties, buildMap, compileOptions } from '../../../src/lib/compilers/compileOptions';
+import { compileRequiredProperties, buildMap, compileOptions } from '../../src/compilers/compileOptions';
 
 describe("compileRequiredProperties", () => {
     it("Should return undefined if no required properties has been found", () =>{

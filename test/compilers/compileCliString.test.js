@@ -1,5 +1,5 @@
 import { describe, expect, it} from 'vitest';
-import { compileCliString } from '../../../src/lib/compilers/compileCliString.js';
+import { compileCliString } from '../../src/compilers/compileCliString.js';
 
 
 describe("cli string builder", () => {

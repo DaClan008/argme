@@ -1,4 +1,4 @@
-import { composer } from "../../main.js";
+import { composer } from "../main.js";
 import { compileOptions } from "../compilers/compileOptions.js";
 import { propertyType } from "./constants.js";
 /**

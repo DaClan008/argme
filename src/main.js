@@ -1,5 +1,5 @@
-import { compileRequiredProperties } from "./lib/compilers/compileOptions.js";
-import { compileArgs } from "./lib/compilers/compileArgs.js";
+import { compileRequiredProperties } from "./compilers/compileOptions.js";
+import { compileArgs } from "./compilers/compileArgs.js";
 
 
 

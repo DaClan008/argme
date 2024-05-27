@@ -1,7 +1,7 @@
 import { composer } from './src/main.js';
-import { compileCliString } from './src/lib/compilers/compileCliString.js';
-import { compileOptions } from './src/lib/compilers/compileOptions.js';
-import { testResult } from './src/lib/helpers/helpers.js';
+import { compileCliString } from './src/compilers/compileCliString.js';
+import { compileOptions } from './src/compilers/compileOptions.js';
+import { testResult } from './src/helpers/helpers.js';
 
 /**
  * @deprecated at version 2.  Should use argme([options]) instead

@@ -1,7 +1,12 @@
 import { escapeHandling } from "../helpers/helpers.js";
 import { StringParams } from "../helpers/stringParams.js";
 import { states } from "../helpers/constants.js";
-
+/**
+ * Deconstruct a string that would look similar to one passed into the CLI into a string array.
+ * @param {string} str The string value to parse into an array.
+ * @param {string} splitChar The character by which to split the string values.  By default this is set to ' '.
+ * @returns {string[]}
+ */
 export function compileCliString(str, splitChar) {
     const result = [];
     splitChar ??= ' ';

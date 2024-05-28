@@ -4,6 +4,13 @@ import { StringParams } from '../helpers/stringParams.js';
 import { findNextProperty, getReturnObject } from '../helpers/helpers.js';
 import { propertyType as propT, states } from '../helpers/constants.js';
 
+/**
+ * Converts a string into a desired Json object or Array.
+ * @param {string} val The string value to compile into either a Json object or an array.
+ * @param {propertyType.Array|propertyType.JsonObject} type The type of return object that needs to be compiled from the string val.
+ * @param {boolean} objReturn Used internally by the function to return an objReturn object.  Deals with partials.
+ * @returns {object | []}
+ */
 export function compileValue(val, type, objReturn) {
     /* v8 ignore next - we do not have to test no value returns */
     if (type !== propT.Array && type !== propT.JsonObject) return val;

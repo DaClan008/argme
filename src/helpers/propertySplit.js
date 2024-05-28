@@ -2,7 +2,7 @@ import { propertyType } from "./constants.js";
 import { encapsulate, escapeHandling, sanitizeValue } from "./helpers.js";
 
 /**
- * 
+ * Split a string into a property component and a value component.
  * @param {string} arg The full argument value (i.e. --prop=value).
  * @param {propertyType} type The propertyType of the argument. (constants.propertyType)
  * @returns {{prop: string, value: string}[]}

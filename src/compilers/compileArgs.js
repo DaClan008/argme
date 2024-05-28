@@ -4,10 +4,13 @@ import { propertySplit } from "../helpers/propertySplit.js";
 import { compileValue } from "./compileValue.js";
 
 /**
- * 
- * @param {string[]} [suppliedArgs] 
- * @param {import("./compileOptions.js").Options} [options] 
- * @returns 
+ * Convert an array of string values into an object.  The supplied strings should be in the following format:
+ * [optional type][property]=[value] (i.e. --prop=value)
+ * @param {string[]} [suppliedArgs] The array of string values.  If a string starts with -- the value of the string will be a normal property.
+ * If a string starts with - the value of the string indicates a short property.  If a string starts with ~~ the value will be considered a json object.
+ * If a string starts with ~ the value will be considered an array.  All other instances it will be added to the _ property on the return object.
+ * @param {import("../main.js").Options} options 
+ * @returns {object}
  */
 export function compileArgs(suppliedArgs, options) {
     const result = {
@@ -84,7 +87,6 @@ export function compileArgs(suppliedArgs, options) {
 
         for(let x = 0; x< props.length; x++) {
             props[x].value = compileValue(props[x].value, type);
-            // const val = type === propertyType.JsonObject || type === propertyType.Array ? compileValue(props[x].value, type) : props[x].value;
             addProperty(props[x].prop, props[x].value, type);
         }
     };

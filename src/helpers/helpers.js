@@ -5,6 +5,7 @@ import { propertyType } from "./constants.js";
  * @returns {boolean}
  */
 export function isString(val) {
+    if (val === '') return true;
     return typeof val === 'string' && isNaN(val) && val.toLowerCase() !== 'true' && val.toLowerCase() !== 'false';
 }
 /**

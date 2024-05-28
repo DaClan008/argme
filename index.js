@@ -43,7 +43,7 @@ export function argme(args, options) {
         result = testOptions(result);
     }
 
-    if (result == void 0 || result['^'] == void 0 || result['*'] == void 0) return result;
+    if (result == void 0 || (result['^'] == void 0 && result['*'] == void 0)) return result;
     
     return argme(result['*'], compileOptions(result['^']));
 };

@@ -1,7 +1,7 @@
 
 
 import { StringParams } from '../helpers/stringParams.js';
-import { encapsulate, findNextProperty, getReturnObject } from '../helpers/helpers.js';
+import { findNextProperty, getReturnObject } from '../helpers/helpers.js';
 import { propertyType as propT, states } from '../helpers/constants.js';
 
 export function compileValue(val, type, objReturn) {

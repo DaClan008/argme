@@ -4,7 +4,7 @@ import { compileArgs } from "../src/compilers/compileArgs.js";
 import { argme } from "../index.js";
 import { compileRequiredProperties, buildMap } from "../src/compilers/compileOptions.js";
 
-const result = compileValue({test:true}, propertyType.Array);
+const result = compileArgs(["--'a\\'bc'=234", "-'a\"'"]);
 
 console.log(result);
 

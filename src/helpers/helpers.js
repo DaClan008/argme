@@ -36,7 +36,6 @@ export function findNextProperty(val, idx) {
  * @param {boolean} state set whether a return object should be returned or just the result on its own. 
  * @param {object} result the result to return.
  * @param {string} val the current value string that compiled the property.
- * @param {string} originalStr the original value string that was originally used to compile the property.
  * @param {number} idx the current index.
  * @returns {object} either a result object or the result only.
  */
@@ -85,27 +84,21 @@ export function getPropertyType (value) {
     return propertyType.None;
 }
 /**
- * 
- * @param {string[] | string[][]} options 
- * @param {string} value
+ * Confirm wether a string value is completely encapsulated within 2 other characters.
+ * @param {*} value The string value to confirm against.
+ * @param  {...(string|string[])} args If a string value is supplied, the string value will be a the first and last characters.  Else
+ * an array can be supplied with the first string value representing the start value, and second value the endValue.
+ * @returns {boolean} True if the any character argument set encapsulates the string value, else false.
  */
 export function encapsulate(value, ...args) {
     /* v8 ignore next - no need to test any of these as it is logical conclusion */
     if (args == void 0 || value == void 0 || value.trim().length <= 1 ||  args.length === 0) return false;
     const vLength = value.length;
     const aLength = args.length;
-    const test = (end) => {
-        for(let i = 1; i < vLength; i++) {
-            if (value[i] === end) return i === vLength - 1;
-        }
-        /* v8 ignore next - no need to test all eventualities */
-        return false;
-    }
     
     for (let i = 0; i < aLength; i++) {
         const isArr = Array.isArray(args[i]);
-        /* v8 ignore next 2 - empty strings should be ignored and no need to test multiple array items. */
-        if (args[i].length === 0) continue;
+        /* v8 ignore next - no need to test array of objects here */
         const start = isArr ? args[i][0] : args[i];
         if (value[0] !== start) continue;
         /* v8 ignore next - no need to test args[i].length > 1 */
@@ -113,7 +106,7 @@ export function encapsulate(value, ...args) {
                         args[i][1] :
                         start;
         if (vLength < start.length + end.length || value[vLength - 1] !== end) continue;
-        if (test(end)) return true;
+        return true;
     }
     return false;
 }

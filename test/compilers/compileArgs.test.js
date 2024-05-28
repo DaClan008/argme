@@ -94,6 +94,14 @@ describe('compileArgs', () => {
             'a"': true
         })
     });
+    it('should ignore quotes surrounding property values that include escapes characters', () => {
+        const result = compileArgs(["--'a\\'bc'=234", "-'a\"'"]);
+        expect(result).toMatchObject({
+            _:[],
+            "a'bc": 234,
+            'a"': true
+        })
+    });
     it('should deal with quotes at odd places within short properties', () => {
         const result = compileArgs(["-a'bc=234", "-xy'z", '-d\"', "-a'_"]);
         expect(result).toMatchObject({ 

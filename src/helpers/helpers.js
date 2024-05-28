@@ -1,5 +1,3 @@
-import { composer } from "../main.js";
-import { compileOptions } from "../compilers/compileOptions.js";
 import { propertyType } from "./constants.js";
 /**
  * Determine if a string is a number or boolean value.

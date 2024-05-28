@@ -2,7 +2,7 @@ import { propertyType } from "../helpers/constants.js";
 import { getPropertyType } from "../helpers/helpers.js";
 import { compileArgs } from "./compileArgs.js";
 import { compileCliString } from "./compileCliString.js";
-import { compileJson } from "./compileJson.js";
+import { compileValue } from "./compileValue.js";
 /**
  * 
  * @param {import("../../main.js").Options | undefined} options 
@@ -16,25 +16,27 @@ export function compileRequiredProperties(options) {
 
     let required = {};
     
-    const cleanUp = () => {
-        if (required._ == void 0) return;
+    const returnObject = () => {
+        if (required._ == void 0) return Object.keys(required).length === 0 ? undefined : required;
         required._.forEach(prop => {
             if (required[prop] !== void 0) return;
             required[prop] = options.returnUndefinedObject ? {undefined: true} :  true 
         });
         delete required._;
+        return Object.keys(required).length === 0 ? undefined : required;
     }
-    const returnObject = () => Object.keys(required).length === 0 ? undefined : required;
+
+    if (type === 'object' && !Array.isArray(options.properties)) {
+        required = options.properties;
+        return returnObject();
+    }
 
     const opts = type === 'string' ?
                     compileCliString(options.properties, options.parseString ? ' ': ',') :
-                    Array.isArray(options.properties) ?
-                        options.properties.filter(x => typeof x === 'string') :
-                        options.properties;
+                    options.properties.filter(x => typeof x === 'string');
     
-    required = Array.isArray(opts) ? compileArgs(opts) : opts;
+    required = compileArgs(opts);
     
-    cleanUp();
     return returnObject();
 }
 
@@ -42,7 +44,7 @@ function fromString(str, delegate) {
     let arr = compileCliString(str, ",");
     let test = fromArray(arr, delegate, true);
     if (test != void 0) return test;
-    arr = compileJson(str);
+    arr = compileValue(str, propertyType.JsonObject);
     return delegate(arr);
 }
 
@@ -51,7 +53,7 @@ function fromArray(arr, delegate, stop) {
     if (!Array.isArray(arr)) return delegate();
     let test = delegate(compileArgs(arr.map(makeProperty)));
     if (test != void 0 || stop) return test;
-    return delegate(compileJson(arr.join(',')));
+    return delegate(compileValue(arr.join(','), propertyType.JsonObject));
 }
 
 function makeProperty(str) {
@@ -132,5 +134,5 @@ export function buildMap(map) {
     }
     if (Object.keys(result).length > 0) return result;
     if (!Array.isArray(map)) return undefined;
-    return buildMap(compileJson(map.join(',')));
+    return buildMap(compileValue(map.join(','), propertyType.JsonObject));
 }

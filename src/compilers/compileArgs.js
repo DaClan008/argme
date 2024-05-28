@@ -1,8 +1,7 @@
 import { getPropertyType, sanitizeValue, isString } from "../helpers/helpers.js";
-import { compileJson } from "./compileJson.js";
-import { compileArray } from "./compileArray.js";
 import { propertyType } from "../helpers/constants.js";
 import { propertySplit } from "../helpers/propertySplit.js";
+import { compileValue } from "./compileValue.js";
 
 /**
  * 
@@ -69,37 +68,25 @@ export function compileArgs(suppliedArgs, options) {
             continue;
         }
         
-        if (type === propertyType.ShortProperty && current.length === 2) {
-            if (args.length === i + 1 || getPropertyType(args[i+1][0]) !== propertyType.None || isString(args[i + 1])) {
-                addProperty(current.substring(1), true, type);
-                continue;
-            }
+        const next = args.length > i+1 && !isString(args[i+1]) ? sanitizeValue(args[i + 1]) : undefined;
 
-            addProperty(current.substring(1), sanitizeValue(args[i+1]), type);
-            i++;
-            continue;
-        }
-
-        const props = propertySplit(args[i], type);
+        const props = type === propertyType.ShortProperty && current.length === 2 ?
+                        [{prop: current.substring(1),value: true}] :
+                        propertySplit(args[i], type);
+                        
         if (props.length === 0) continue;
-
-        if (props.length === 1 && props[0].value === true && args.length > i + 1 && !isString(args[i+1])) {
-            addProperty(props[0].prop, sanitizeValue(args[i+1]), type);
+        
+        if (next != void 0 && props.length === 1 && props[0].value === true) {
+            addProperty(props[0].prop, next, type);
             i++;
             continue;
         }
-        if (type === propertyType.FullProperty || type === propertyType.ShortProperty) {
-            for(let i = 0; i < props.length; i++) {
-                addProperty(props[i].prop, sanitizeValue(props[i].value), type);
-            }
-            continue;
+
+        for(let x = 0; x< props.length; x++) {
+            props[x].value = compileValue(props[x].value, type);
+            // const val = type === propertyType.JsonObject || type === propertyType.Array ? compileValue(props[x].value, type) : props[x].value;
+            addProperty(props[x].prop, props[x].value, type);
         }
-        // now left with array / json object
-        if (type === propertyType.JsonObject) {
-            addProperty(props[0].prop, compileJson(props[0].value));
-            continue;
-        }
-        addProperty(props[0].prop, compileArray(props[0].value));
     };
     return result;
 }

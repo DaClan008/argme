@@ -1,5 +1,5 @@
 import { propertyType } from "./constants.js";
-import { encapsulate, escapeHandling } from "./helpers.js";
+import { encapsulate, escapeHandling, sanitizeValue } from "./helpers.js";
 
 /**
  * 
@@ -97,7 +97,7 @@ export function propertySplit(arg, type) {
     
     result.push({
         prop,
-        value: equalIndex < 0 ? true : arg.substring(equalIndex + 1)
+        value: equalIndex < 0 ? true : sanitizeValue(arg.substring(equalIndex + 1))
     });
 
     return result;

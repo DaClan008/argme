@@ -207,7 +207,7 @@ describe('compileArgs', () => {
         });
     });
     it('should be able to deal with ignore values in property strings.', () => {
-        const result = compileArgs(["--a\\=b=123", "~~d\\:e:'a:b'", "~z\\\\y=123"]);
+        const result = compileArgs(["--a\\=b=123", "~~d\\:e:a:b", "~z\\\\y=123"]);
         expect(result).toMatchObject({
             _: [],
             'a=b':123,

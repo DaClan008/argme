@@ -1,6 +1,7 @@
 import { composer, testOptions } from './src/main.js';
 import { compileCliString } from './src/compilers/compileCliString.js';
 import { compileOptions } from './src/compilers/compileOptions.js';
+import { compileArgs } from './src/compilers/compileArgs.js';
 
 /**
  * @deprecated at version 2.  Should use argme([options]) instead
@@ -43,7 +44,8 @@ export function argme(args, options) {
         result = testOptions(result);
     }
 
-    if (result == void 0 || (result['^'] == void 0 && result['*'] == void 0)) return result;
-    
-    return argme(result['*'], compileOptions(result['^']));
+    if (result == void 0 || result['^'] == void 0 || options != void 0) return result;
+    options = compileOptions(typeof result['^'] === 'string' ? compileArgs([result['^']]) : result['^']);
+    args = Object.keys(result).length > 2 ? args : undefined;
+    return options == void 0 ? result : argme(args, options);
 };

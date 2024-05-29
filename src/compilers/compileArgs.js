@@ -17,7 +17,7 @@ export function compileArgs(suppliedArgs, options) {
         _:[]
     }
     /* v8 ignore next - process.arv test here for the moment. */
-    const args = suppliedArgs || process.argv.splice(2);
+    const args = suppliedArgs || process.argv.slice(2);
 
     const addProperty = (prop, val, type) => {
         

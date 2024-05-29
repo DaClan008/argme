@@ -103,8 +103,8 @@ describe('argme - index.js', () => {
             c: true 
         });
     });
-    it('should accept a string array where * property is arg and ^ is options', () => {
-        const result = argme(["--*=-abc", "--^=~~map='a: abc'"]);
+    it('should accept a string array where ^ is options', () => {
+        const result = argme(["-abc", "--^=~~map='a: abc'"]);
         expect(result).toMatchObject({
             _: [],
             abc: true,

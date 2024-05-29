@@ -27,6 +27,12 @@ describe("compileValue - Arrays", () => {
             "abc", "def", "xyz"
         ])
     });
+    it("Should be able to compile a simple array without the use of Brackets", () => {
+        const result = compileValue("'abc', 'def', 'xyz'", propertyType.Array);
+        expect(result).toMatchObject([
+            "abc", "def", "xyz"
+        ])
+    });
     it("Should properly deal with quotes", () => {
         const result = compileValue("['abc, \"def', xyz", propertyType.Array);
         expect(result).toMatchObject([

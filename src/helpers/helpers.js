@@ -54,7 +54,7 @@ export function getReturnObject(state, result, val, idx) {
  * @param {string[]} escapeChars The type of escapeChars.  If undefined, this will be [',",\]
  * @returns {string}
  */
-export function escapeHandling(str, idx, escapeChars) {
+export function escapeHandling(str, idx, escapeChars, currentQuote) {
     /* v8 ignore next - should not enter this branch */
     if (str[idx] !== '\\') return  str;
 
@@ -63,9 +63,17 @@ export function escapeHandling(str, idx, escapeChars) {
     const next = str.length > idx + 1 ? str[idx + 1] : undefined;
     if (next == void 0 || escapeChars.indexOf(next) < 0)
          return str;
+    
+    let count = 1;
+    if (currentQuote != void 0) {
+        // we are dealing with cliCompilation
+        const after = str.length > idx + 2 ? str[idx + 2] : undefined;
+        const prev = idx > 0 ? str[idx-1] : undefined;
+        if (currentQuote === next && currentQuote === after) count = prev !== ' ' ? 1 : 2;
+    }
 
     // we have \\ or \" or \'    
-    str = str.substring(0, idx) + str.substring(idx + 1);
+    str = str.substring(0, idx) + str.substring(idx + count);
 
     return str;
 }

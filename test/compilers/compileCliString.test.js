@@ -22,14 +22,14 @@ describe("cli string builder", () => {
         ])
     });
     it("should be able to deconstruct cli type input string and remove quotes in the middle of text", () => {
-        const result = compileCliString('abc -pb --a"bc=234" a"b d"c a="bc" a=b"c d" ');
+        const result = compileCliString('abc "-pb" --a"bc=234" a"b d"c a="bc" a=b"c d" ');
 
         expect(result).toMatchObject([
             'abc',
             '-pb',
             '--abc=234',
             'ab dc',
-            'a="bc"',
+            'a=bc',
             'a=bc d'
         ])
     });
@@ -41,8 +41,15 @@ describe("cli string builder", () => {
             '-pb',
             '--abc=234',
             "ab 'dc",
-            'a="b\'c"',
+            "a=b'c",
             "a=bc' d"
+        ])
+    });
+    it("should ignore single escapes for quotes.  This is perceived the same as no escapes.", () => {
+        const result = compileCliString(' abc -pb --a"bc=234" a"b \"d"c a="b\"c" a\"=b"c\" d"');
+
+        expect(result).toMatchObject([
+            'abc', '-pb', '--abc=234', 'ab dc a=bc', 'a=bc d'
         ])
     });
     it("should be able to escape certain quotes if needs be", () => {
@@ -59,7 +66,21 @@ describe("cli string builder", () => {
         const result = compileCliString('--a="b\\cd" --a=bcd\\');
 
         expect(result).toMatchObject([
-            '--a="b\\cd"', '--a=bcd\\'
+            '--a=b\\cd', '--a=bcd\\'
         ])
-    })
+    });
+    it("should be able to deal with double escapes as per cli (no leading space)", () => {
+        const result = compileCliString('a"b\\"" asdf jkl"');
+
+        expect(result).toMatchObject([
+            'ab"', "asdf", "jkl"
+        ]);
+    });
+    it("should be able to deal with double escapes as per cli (with leading space)", () => {
+        const result = compileCliString('a"b \\"" asdf jkl"');
+
+        expect(result).toMatchObject([
+            'ab " asdf jkl'
+        ]);
+    });
 });

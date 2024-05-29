@@ -9,6 +9,7 @@ import { states } from "../helpers/constants.js";
  */
 export function compileCliString(str, splitChar) {
     const result = [];
+    str = str.trim();
     splitChar ??= ' ';
     // let txtCounter = 0;
     const escapes = ['"', "'", "\\"];
@@ -26,7 +27,7 @@ export function compileCliString(str, splitChar) {
     }
 
     const removeQuotes = (idx) =>{
-        if (quoteIndex < 0 || valStarted === 0) {
+        if (quoteIndex < 0) {
             quoteIndex = -1;
             quote = undefined;
             return idx;
@@ -43,6 +44,12 @@ export function compileCliString(str, splitChar) {
     for(let i = 0; i<str.length; i++) {
         const char = str[i];      
 
+        if (char === '\\') {
+            str = escapeHandling(str, i, escapes, quote);
+            if (str[i] !== '\\' && prop.State === states.NotStarted) prop.Start = i;
+            continue;
+        }
+
         if (char === '"' || char === "'") {
             if (quote === char) {
                 i = removeQuotes(i);
@@ -56,11 +63,6 @@ export function compileCliString(str, splitChar) {
         }
         if (quote != void 0) continue;
 
-        if (char === '\\') {
-            str = escapeHandling(str, i, escapes);
-            if (str[i] !== '\\' && prop.State === states.NotStarted) prop.Start = i;
-            continue;
-        }
 
         if (char === splitChar) {
             if (prop.State !== states.Started) continue;
@@ -76,7 +78,9 @@ export function compileCliString(str, splitChar) {
     }
     if (prop.State !== states.Started) return result;
 
-    prop.End = str.length
+    if (quote != void 0 && str[str.length - 1] === quote) removeQuotes(str.length);
+    // prop.End = str.length - ((str[str.length-1] === '"' || str[str.length-1] === "'") && quote != void 0 ? 2 : 1);
+    prop.End = str.length - 1;
     add(prop.parse(str, true));
 
     return result;

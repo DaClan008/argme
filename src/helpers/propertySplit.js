@@ -92,7 +92,7 @@ export function propertySplit(arg, type) {
                 arg.substring(start, startEnd);
     result.splice(0, result.length);
 
-    if (encapsulate(prop, "'", '"')) prop = prop.substring(1, prop.length - 1);
+    if (encapsulate(prop, "'", '"') && type !== propertyType.Array) prop = prop.substring(1, prop.length - 1);
     if (prop === '_') return [];
     
     result.push({

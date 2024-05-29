@@ -80,9 +80,8 @@ will produce the following result:
 and *console.log(argOptions)*
 ```json
 {
-    "_": [],
     "a": 5,
-    "b": true,
+    "b": false,
     "c": "yes"
 }
 ```
@@ -148,11 +147,11 @@ console.log(result);
 
 The result should output the following object:
 
-```js
+```json
 {
-    _:[],
-    alternative: true,
-    abc: 'yes'
+    "_":[],
+    "alternative": true,
+    "abc": 'yes'
 }
 
 ```
@@ -465,15 +464,17 @@ The purpose of the CLI string compiler is to split each string up between differ
 
 There are some odd behaviors when it comes to these quotes that are used within the cli.  For instance:
 
-- One should think that escaping a quote **"-a\"b"** should be allowed but it is not.
+- One should think that escaping a quote **"-a\"b"** should be allowed but it is **not allowed** using cli tool, however in Javascript this will return **"-ab"**.
 - What is however allowed is **"-a\""b"**.  This delivers the expected **-a"bc** value.
 - However the above is only the case if there are no space between the last " and the b in the above example.  If one would type **-a\"" b"** the result will be **['-a"', 'b' ]**.  Therefore the general rule will apply that if there are no spaces then it is considered one and the same string.  So the last quote, after the b can be ignored.
-- The above alsoe means that **"-a\""b cd"** will produce **['-a"b', 'cd']** i.e. not as one value set.
-- However, should the escape be preceded by a space, the behavior is different.  **"-a \""b cd"** will produce **-a "b cd"** or **"-a \"" b cd"** will produce **-a "b cd"**.
+- The above also mean that **"-a\""b cd"** will produce **['-a"b', 'cd']** i.e. not as one value set.
+- However, should the escape be preceded by a space, the behavior is different.  **"-a \""b cd"** will produce **-a "b cd** or **"-a \"" b cd"** will produce **-a "b cd**.
 
-As explained above, all quotes that are similar to the starting quote is removed from a string.  Therefore in **-a"b"='cd e'**  will produce the following result:  **-ab=cd e**.  But **"ab'cd' 'ef' 'g'"** will produce: **ab'cd 'ef' 'g'**.
+As explained above, all quotes that are similar to the starting quote is removed from a string.  Therefore in **-a"b"='cd e'**  will produce the following result:  **-ab=cd e**.  But **"ab'cd' 'ef' 'g'"** will produce: **ab'cd' 'ef' 'g'**.
 
 It is for this reason that should one pass from javascript a string representing a similar instance as above, the same behavior should be expected.
+
+** Please Note**:  When using escapes in javascript, a double escape need to be supplied in the above examples to have a similar result.
 
 ### Special Properties
 
@@ -504,7 +505,9 @@ This should deliver the same result as shown above.
 
 ## CLI vs JS strings
 
-Please note that when calling argme with a string value from Javascript, or 
+Please note that the argme function will attempt to match the behavior of the node cli when passing a string value from Javascript.  Please refer to [working with strings](#working-with-strings) above for more details.
+
+Furthermore note that where single escapes may be used on the cli, in javascript a double \\ is necessary to match the behavior.
 
 ## Deprecated Methods
 

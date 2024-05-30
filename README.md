@@ -151,7 +151,7 @@ The result should output the following object:
 {
     "_":[],
     "alternative": true,
-    "abc": 'yes'
+    "abc": "yes"
 }
 
 ```
@@ -237,7 +237,7 @@ if spaces are required to be used with the value object wrap the value within " 
 
 The above example will render 
 ```json
-{ property: "value" }
+{ "property": "value" }
 ```
 as an object passing it through the argme function.
 
@@ -452,7 +452,7 @@ Should you pass --[property]= with no value, the result will be a property with 
 will produce:
 ```json
 { 
-    "_": [], "a": true, b: "" 
+    "_": [], "a": true, "b": "" 
 }
 ```
 

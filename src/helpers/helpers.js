@@ -67,6 +67,7 @@ export function escapeHandling(str, idx, escapeChars, currentQuote) {
     let count = 1;
     if (currentQuote != void 0) {
         // we are dealing with cliCompilation
+        /* v8 ignore next 2 - no need to test the undefined options */
         const after = str.length > idx + 2 ? str[idx + 2] : undefined;
         const prev = idx > 0 ? str[idx-1] : undefined;
         if (currentQuote === next && currentQuote === after) count = prev !== ' ' ? 1 : 2;

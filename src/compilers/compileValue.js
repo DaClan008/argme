@@ -1,7 +1,7 @@
 
 
 import { StringParams } from '../helpers/stringParams.js';
-import { findNextProperty, getReturnObject } from '../helpers/helpers.js';
+import { filterQuote, findNextProperty, getReturnObject } from '../helpers/helpers.js';
 import { propertyType as propT, states } from '../helpers/constants.js';
 
 /**
@@ -24,7 +24,6 @@ export function compileValue(val, type, objReturn) {
     const openBracketAtStart = val[0] === startBrackets;
     const prop = new StringParams();
     const value = new StringParams();
-    let quote = undefined;
 
     const result = type === propT.Array ? [] : {};
 
@@ -53,17 +52,12 @@ export function compileValue(val, type, objReturn) {
         if (char === ' ') continue;
 
         if (char === '"' || char === "'") {
-            if (char === quote) {
-                quote = undefined;
-                continue;
-            }
-            if (quote != void 0) continue;
             if (prop.State === states.NotStarted) prop.Start =i;
             else if (type === propT.JsonObject && prop.State === states.Finalized && value.State === states.NotStarted) value.Start = i;
-            quote = char;
+            const filter = filterQuote(val,i, char, [],false, true);
+            i = filter.idx;
             continue;
         }
-        if (quote != void 0) continue;
         
         // hit next property
         if (char === ',') {
@@ -106,11 +100,8 @@ export function compileValue(val, type, objReturn) {
             continue;
         }
 
-        if (prop.State === states.NotStarted) {
-            prop.Start = i;
-            continue;
-        }
-        if (prop.State === states.Finalized && value.State === states.NotStarted) value.Start = i;
+        if (prop.State === states.NotStarted) prop.Start = i;
+        else if (prop.State === states.Finalized && value.State === states.NotStarted) value.Start = i;
     }
     let openP = false;
     if (prop.State === states.Started) {

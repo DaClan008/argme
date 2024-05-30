@@ -145,6 +145,19 @@ describe('composer', () => {
         });
         expect(result._).toBeDefined();
     });
+    it('should ignore option restriction if properties is not properly set', () =>{
+        const options = { properties: {}, strict: true  };
+        const result = composer(['--Bde=no', '--def', '-ac'], options);
+
+        expect(result).toMatchObject({
+            _:[],
+            Bde: 'no',
+            def: true,
+            a: true,
+            c: true
+        });
+        expect(result._).toBeDefined();
+    });
     // new
     it('should be able to pass a map for short properties only', () =>{
         const options = { map: {a: 'aProp', b: 'bProp'} };

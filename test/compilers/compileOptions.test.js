@@ -193,4 +193,11 @@ describe("compileOptions", () => {
             }
         })
     });
+    it("should remove properties property if no value has been set", ()=> {
+        const result = compileOptions({properties: {}, strict: true});
+        expect(result).toMatchObject({
+            strict: true
+        });
+        expect(result.properties).toBeFalsy();
+    });
 });

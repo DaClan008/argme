@@ -82,8 +82,6 @@ export function propertySplit(arg, type) {
  * @returns {{prop:string, value: string}[]}
  */
 function shortPropReturn(result, arg, quoteIndex) {
-    if (quoteIndex < 0) return result;
-    
     const tmp = propertySplit(arg.substring(quoteIndex), propertyType.ShortProperty);
     if (tmp.length === 0) return result;
     

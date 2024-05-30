@@ -27,11 +27,6 @@ export function compileCliString(str, splitChar) {
     }
 
     const removeQuotes = (idx) =>{
-        if (quoteIndex < 0) {
-            quoteIndex = -1;
-            quote = undefined;
-            return idx;
-        }
         str = str.substring(0, quoteIndex) + str.substring(quoteIndex +1);
         idx--;
         str = str.substring(0, idx) + str.substring(idx + 1);

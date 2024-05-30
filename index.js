@@ -46,6 +46,5 @@ export function argme(args, options) {
 
     if (result == void 0 || result['^'] == void 0 || options != void 0) return result;
     options = compileOptions(typeof result['^'] === 'string' ? compileArgs([result['^']]) : result['^']);
-    args = Object.keys(result).length > 2 ? args : undefined;
     return options == void 0 ? result : argme(args, options);
 };

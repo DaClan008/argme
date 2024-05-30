@@ -112,4 +112,14 @@ describe('argme - index.js', () => {
             c: true 
         });
     });
+    it('should accept a string array with faulty ^ options', () => {
+        const result = argme(["-abc", "--^=~~maps='a: abc'"]);
+        expect(result).toMatchObject({
+            _: [],
+            a: true,
+            b: true,
+            c: true,
+            "^": "~~maps='a: abc'"
+        });
+    });
 })

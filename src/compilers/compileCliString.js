@@ -45,23 +45,27 @@ export function compileCliString(str, splitChar) {
             if (prop.State === states.NotStarted) prop.Start = i;
             const filter = filterQuote(str, i, char, escapes, true);
             str = filter.txt;
-            i = removeQuotes(i, filter.idx === i ? str.length : filter.idx);
+            const removeIdx = removeQuotes(i, filter.idx === i ? str.length : filter.idx);
             if (filter.idx === i) break; // no closing quote
+            i = removeIdx;
             continue;
         }
 
         if (char === splitChar) {
+            /* v8 ignore next - might be able to remove check later */
             if (prop.State !== states.Started) continue;
             prop.End = i-1;
             add(prop.parse(str, true));
             continue;
         }
+        /* v8 ignore next - only applicable if , separation is used */
         if (char === ' ') continue;
         if ((char === '=' || char === ':') && valStarted < 0) valStarted = 0;
         else if (valStarted > -1) valStarted++;
         if (prop.State === states.Started) continue;
         prop.Start = i;
     }
+    /* v8 ignore next - might be able to remove later? */
     if (prop.State !== states.Started) return result;
 
     prop.End = str.length - 1;

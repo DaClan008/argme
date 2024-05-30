@@ -45,6 +45,18 @@ describe("cli string builder", () => {
             "a=bc' d"
         ])
     });
+    it("should be able to reconstruct cli type input string without a proper ending quote", () => {
+        const result = compileCliString(' abc -pb --a"bc=234" a"b \'d"c a="b\'c" a=b"c d');
+
+        expect(result).toMatchObject([
+            'abc',
+            '-pb',
+            '--abc=234',
+            "ab 'dc",
+            "a=b'c",
+            "a=bc d"
+        ])
+    });
     it("should ignore single escapes for quotes.  This is perceived the same as no escapes.", () => {
         const result = compileCliString(' abc -pb --a"bc=234" a"b \"d"c a="b\"c" a\"=b"c\" d"');
 

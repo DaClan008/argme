@@ -23,10 +23,11 @@ export function propertySplit(arg, type) {
         }
 
         if(type === propertyType.ShortProperty && (char === '"' || char === "'")) {
-            const tmpI = filterQuote(arg, i, char);
-            if (tmpI === i || i === arg.length -1) return shortPropReturn(result, arg, i);
-            result.push({prop: arg.substring(i + 1, tmpI), value: true});
-            i = tmpI;
+            const filter = filterQuote(arg, i, char, ['"', "'", "\\", ":", "="]);
+            if (filter.start !== filter.end) arg = filter.txt;
+            if (filter.idx === i || i === arg.length -1) return shortPropReturn(result, arg, i);
+            result.push({prop: arg.substring(i + 1, filter.idx), value: true});
+            i = filter.idx;
             continue;
         }
                 

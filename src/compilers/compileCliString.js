@@ -1,4 +1,4 @@
-import { escapeHandling } from "../helpers/helpers.js";
+import { escapeHandling, filterQuote } from "../helpers/helpers.js";
 import { StringParams } from "../helpers/stringParams.js";
 import { states } from "../helpers/constants.js";
 /**
@@ -16,8 +16,6 @@ export function compileCliString(str, splitChar) {
     escapes.push(splitChar);
 
     const prop = new StringParams();
-    let quote = undefined;
-    let quoteIndex = -1;
     let valStarted = -1;
 
     const add = (val) => {
@@ -26,38 +24,31 @@ export function compileCliString(str, splitChar) {
         valStarted = -1;
     }
 
-    const removeQuotes = (idx) =>{
-        str = str.substring(0, quoteIndex) + str.substring(quoteIndex +1);
-        idx--;
-        str = str.substring(0, idx) + str.substring(idx + 1);
-        idx--;
-        quoteIndex = -1;
-        quote = undefined;
-        return idx;
+    const removeQuotes = (startIdx, endIdx) =>{
+        str = str.substring(0, startIdx) + str.substring(startIdx +1);
+        endIdx--;
+        str = str.substring(0, endIdx) + str.substring(endIdx + 1);
+        endIdx--;
+        return endIdx;
     }
 
     for(let i = 0; i<str.length; i++) {
         const char = str[i];      
 
         if (char === '\\') {
-            str = escapeHandling(str, i, escapes, quote);
+            str = escapeHandling(str, i, escapes);
             if (str[i] !== '\\' && prop.State === states.NotStarted) prop.Start = i;
             continue;
         }
 
         if (char === '"' || char === "'") {
-            if (quote === char) {
-                i = removeQuotes(i);
-                continue;
-            }
-            if (quote != void 0) continue;
-            quote = char;
-            quoteIndex = i;
             if (prop.State === states.NotStarted) prop.Start = i;
+            const filter = filterQuote(str, i, char, escapes, true);
+            str = filter.txt;
+            i = removeQuotes(i, filter.idx === i ? str.length : filter.idx);
+            if (filter.idx === i) break; // no closing quote
             continue;
         }
-        if (quote != void 0) continue;
-
 
         if (char === splitChar) {
             if (prop.State !== states.Started) continue;
@@ -73,8 +64,6 @@ export function compileCliString(str, splitChar) {
     }
     if (prop.State !== states.Started) return result;
 
-    if (quote != void 0 && str[str.length - 1] === quote) removeQuotes(str.length);
-    // prop.End = str.length - ((str[str.length-1] === '"' || str[str.length-1] === "'") && quote != void 0 ? 2 : 1);
     prop.End = str.length - 1;
     add(prop.parse(str, true));
 

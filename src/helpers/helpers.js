@@ -116,14 +116,21 @@ export function encapsulate(value, ...args) {
     }
     return false;
 }
-export function filterQuote(txt, idx, quote, ignore) {
-    for(let i = idx + 1; i < txt.length; i++) {
-        if (!ignore && txt[i] === '\\') {
-            const escapeTxt = escapeHandling(txt, i, [quote]);
-            i += txt.length - escapeTxt.length;
+export function filterQuote(txt, idx, quote, escapes, includeQuote, ignore) {
+    const result = {
+        start:txt.length,
+        end: txt.length,
+        txt,
+        idx: idx + 1
+    };
+    for(; result.idx < result.txt.length; result.idx++) {
+        if (!ignore && result.txt[result.idx] === '\\') {
+            result.txt = escapeHandling(txt, result.idx, escapes, includeQuote ? quote : undefined);
+            result.end = result.txt.length;
             continue;
         }
-        if (txt[i] === quote) return i;
+        if (result.txt[result.idx] === quote) return result;
     }
-    return idx;
+    result.idx = idx;
+    return result;
 }

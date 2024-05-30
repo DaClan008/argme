@@ -59,7 +59,7 @@ describe("cli string builder", () => {
             'abc',
             '--a"bc=234 ab',
             "'dc a=b'c",
-            "a=b\"c' d\""
+            'a=b"c d"'
         ])
     });
     it("should be able to handle non-escapes ", ()=> {

@@ -1,5 +1,5 @@
 import { propertyType } from "./constants.js";
-import { encapsulate, escapeHandling, sanitizeValue } from "./helpers.js";
+import { encapsulate, escapeHandling, filterQuote, sanitizeValue } from "./helpers.js";
 
 /**
  * Split a string into a property component and a value component.
@@ -9,14 +9,10 @@ import { encapsulate, escapeHandling, sanitizeValue } from "./helpers.js";
  */
 export function propertySplit(arg, type) {
     const result = [];
-
-    const isFull = type === propertyType.FullProperty || type === propertyType.JsonObject;
     /* v8 ignore next - propertyType.None should not happen, but just in case. */
     const start = type === propertyType.None ? 0 : type === propertyType.FullProperty || type === propertyType.JsonObject ? 2 : 1;
     let i = start;
     let equalIndex = -1;
-    let quoteIndex = -1;
-    let quote = undefined;
 
     for (;i < arg.length; i++) {
         const char = arg[i];
@@ -26,22 +22,14 @@ export function propertySplit(arg, type) {
             continue;
         }
 
-        if(!isFull && (char === '"' || char === "'")) {
-            if (quoteIndex < 0) {
-                if (i === arg.length - 1) continue; // last character ignore
-                quoteIndex = i;
-                quote = char;
-                continue;
-            }
-            if (char !== quote) continue;
-            quote = void 0;
-            result.push({prop: arg.substring(quoteIndex + 1, i), value: true});
-            quoteIndex = -1;
+        if(type === propertyType.ShortProperty && (char === '"' || char === "'")) {
+            const tmpI = filterQuote(arg, i, char);
+            if (tmpI === i || i === arg.length -1) return shortPropReturn(result, arg, i);
+            result.push({prop: arg.substring(i + 1, tmpI), value: true});
+            i = tmpI;
             continue;
         }
-        
-        if (quote != void 0) continue;
-        
+                
         if (char === '=') {
             equalIndex = i;
             break;
@@ -53,7 +41,7 @@ export function propertySplit(arg, type) {
         
         if (type !== propertyType.ShortProperty) continue;
 
-        if (arg[i] === '-' || arg[i] === '_') continue;
+        if (char === '-' || char === '_') continue;
 
         if (i > 1 && !isNaN(arg.substring(i))) {
             const val = parseFloat(arg.substring(i));
@@ -62,35 +50,16 @@ export function propertySplit(arg, type) {
             }
             return result;
         }
-        result.push({prop: arg[i], value: true});
+        result.push({prop: char, value: true});
     }
-    if (quoteIndex > -1) {
-        // ignore the quote ... will get here only if short prop.
-        const tmp = propertySplit(arg.substring(quoteIndex), type);
-        if (tmp.length === 0) return result;
-        
-        if (tmp.length > 1 || tmp[0].value === true) {
-            result.push(...tmp);
-            return result;
-        }
-        if (tmp[0].value !== true) {
-            const tmpResult = result.reduce((prev, current) => {
-                prev.prop += current.prop;
-                return prev;
-            },{prop: '', value: tmp[0].value});
-            tmpResult.prop += tmp[0].prop;
-            result.splice(0);
-            result.push(tmpResult);
-        }
-        return result;
-    }
+   
     if (equalIndex < 0 && type === propertyType.ShortProperty) return result;
 
     const startEnd = equalIndex < 0 ? undefined : equalIndex;
     let prop = type === propertyType.ShortProperty ?
-                result.map(x=> x.prop).join('') :
+                result.reduce((prev, x) => prev + x.prop, '') :
                 arg.substring(start, startEnd);
-    result.splice(0, result.length);
+    result.splice(0);
 
     if (encapsulate(prop, "'", '"')) prop = prop.substring(1, prop.length - 1);
     if (prop === '_') return [];
@@ -103,4 +72,25 @@ export function propertySplit(arg, type) {
     });
 
     return result;
+}
+/**
+ * Get the result of a short property type that has an open ended quote value.
+ * @param {{prop:string, value: string}[]} result The current result item
+ * @param {string} arg The current text argument that contains the open ended quote.
+ * @param {number} quoteIndex The index where the quote starts from
+ * @returns {{prop:string, value: string}[]}
+ */
+function shortPropReturn(result, arg, quoteIndex) {
+    if (quoteIndex < 0) return result;
+    
+    const tmp = propertySplit(arg.substring(quoteIndex), propertyType.ShortProperty);
+    if (tmp.length === 0) return result;
+    
+    result.push(...tmp);
+    if (tmp.length > 1 || tmp[0].value === true) return result;
+            
+    return [result.reduce((prev, current) => {
+        prev.prop += current.prop;
+        return prev;
+    },{prop: '', value: tmp[0].value})];
 }

@@ -104,19 +104,26 @@ export function encapsulate(value, ...args) {
     /* v8 ignore next - no need to test any of these as it is logical conclusion */
     if (args == void 0 || value == void 0 || value.trim().length <= 1 ||  args.length === 0) return false;
     const vLength = value.length;
-    const aLength = args.length;
     
-    for (let i = 0; i < aLength; i++) {
+    for (let i = 0; i < args.length; i++) {
         const isArr = Array.isArray(args[i]);
-        /* v8 ignore next - no need to test array of objects here */
+        /* v8 ignore next 2 - no need to test array of objects here */
         const start = isArr ? args[i][0] : args[i];
-        if (value[0] !== start) continue;
-        /* v8 ignore next - no need to test args[i].length > 1 */
-        const end = isArr && args[i].length > 1 ?
-                        args[i][1] :
-                        start;
-        if (vLength < start.length + end.length || value[vLength - 1] !== end) continue;
+        const end = isArr && args[i].length > 1 ? args[i][1] : start;
+        
+        if (vLength < start.length + end.length || value[0] !== start || value[vLength - 1] !== end) continue;
         return true;
     }
     return false;
+}
+export function filterQuote(txt, idx, quote, ignore) {
+    for(let i = idx + 1; i < txt.length; i++) {
+        if (!ignore && txt[i] === '\\') {
+            const escapeTxt = escapeHandling(txt, i, [quote]);
+            i += txt.length - escapeTxt.length;
+            continue;
+        }
+        if (txt[i] === quote) return i;
+    }
+    return idx;
 }

@@ -125,6 +125,7 @@ export function filterQuote(txt, idx, quote, escapes, includeQuote, ignore) {
     };
     for(; result.idx < result.txt.length; result.idx++) {
         if (!ignore && result.txt[result.idx] === '\\') {
+            /* v8 ignore next - no need to test if last variable is undefined */
             result.txt = escapeHandling(txt, result.idx, escapes, includeQuote ? quote : undefined);
             result.end = result.txt.length;
             continue;

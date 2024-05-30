@@ -219,7 +219,7 @@ Property | Type | Description |
 ---------|------|-------------|
 ignoreDuplicates | boolean | If set  to true and a property is passed twice only the first encounter's value of that property will be logged to the returned object.  If set to false an array of values will be created.
 duplicateOverride | boolean | If set to true and there are duplicate properties in a provided object, the last received value will replace the first received.  Similar to "ignoreDuplicates" above, if set to false an array of values will be created.
-ignoreBooleanDuplicates | boolean | If set to true and there are duplicate properties in, the property whose value is a type of boolean will be ignored.
+ignoreBoolDuplicates | boolean | If set to true and there are duplicate properties in, the property whose value is a type of boolean will be ignored.
 map | object \| string \| string[] | If set and short properties are used (i.e. -abc) which may produce an object for instance as {a: true, b: true, c: true}, the property names will be altered to what is provided for in the "map".  For instance in this example, if the map is set to {a: "alpha", b: "beta"} the result will be {alpha: true, beta: true, c: true}
 
 ## Expected Behavior

@@ -73,6 +73,6 @@ export function testOptions(testObject) {
  * @property {boolean} ignoreCase if set to true then the case of the property name in the argument list will be ignored when compared with the required list.  The value will default to required list's property value.
  * @property {boolean} ignoreDuplicates if set to true only the first item received for each property
  * @property {boolean} duplicateOverride if set to true, and ignoreDuplicate is set to true then the last value received for each property will be returned.
- * @property {boolean} ignoreBooleanDuplicates if set to true, if a property is passed twice that contains a boolean value (either originally or later), the duplicate value will be ignored and the bool value will always be replaced with another type.
+ * @property {boolean} ignoreBoolDuplicates if set to true, if a property is passed twice that contains a boolean value (either originally or later), the duplicate value will be ignored and the bool value will always be replaced with another type.
  * @property {object|string|string[]} map map short property values to long property values
  */

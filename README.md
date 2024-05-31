@@ -1,9 +1,9 @@
 # aragme
 [![Unit Tests](https://github.com/DaClan008/argme/actions/workflows/testing.yml/badge.svg)](https://github.com/DaClan008/argme/actions/workflows/testing.yml)
-![Coverage](https://img.shields.io/badge/code--coverage-20%-brightgreen?style=flat-square&logo=github)
-[![npm](https://img.shields.io/npm/v/argme)](https://img.shields.io/npm/v/argme)
-![npm](https://img.shields.io/npm/dw/argme)
-![NPM](https://img.shields.io/npm/l/argme)
+![Coverage](https://img.shields.io/badge/code--coverage-100%-brightgreen?style=flat-square&logo=github)
+[![npm](https://img.shields.io/npm/v/argme?style=flat-square)](https://img.shields.io/npm/v/argme)
+![npm](https://img.shields.io/npm/dw/argme?style=flat-square)
+![NPM](https://img.shields.io/npm/l/argme?style=flat-square)
 
 An argument parser for process.argv in node.js with optional settings.
 

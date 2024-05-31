@@ -184,9 +184,9 @@ The result should output the following object:
 
 ```js
 {
-    _:[],
-    alternative: true,
-    abc: 'yes'
+    "_":[],
+    "alternative": true,
+    "abc": "yes"
 }
 
 ```
@@ -213,7 +213,7 @@ returnUndefinedObject | boolean | This is used when the required property in ter
 
 ### Other Options
 
-Additional to the above are the follwing:
+Additional to the above are the following:
 
 Property | Type | Description |
 ---------|------|-------------|

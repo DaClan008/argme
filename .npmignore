@@ -43,6 +43,7 @@ jspm_packages/
 package-lock.json
 test/
 releases/
+releases
 .github/
 # TypeScript v1 declaration files
 typings/

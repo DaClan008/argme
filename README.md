@@ -1,6 +1,6 @@
 # aragme
 [![Unit Tests](https://github.com/DaClan008/argme/actions/workflows/testing.yml/badge.svg)](https://github.com/DaClan008/argme/actions/workflows/testing.yml)
-![Coverage](https://img.shields.io/badge/code--coverage-100%-brightgreen?style=flat-square&logo=github)
+![Coverage](https://img.shields.io/badge/code--coverage-100%-brightgreen?style=flat-square)
 [![npm](https://img.shields.io/npm/v/argme?style=flat-square)](https://img.shields.io/npm/v/argme)
 ![npm](https://img.shields.io/npm/dw/argme?style=flat-square)
 ![NPM](https://img.shields.io/npm/l/argme?style=flat-square)

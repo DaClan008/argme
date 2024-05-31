@@ -40,7 +40,6 @@ describe('compileArgs', () => {
         });
 
     });
-    // possible breaking chang - previous def returned a string value
     it('should be able to add proper long properties', () => {
         const result = compileArgs(['--abc=baz', '--def=true']);
         expect(result).toMatchObject({

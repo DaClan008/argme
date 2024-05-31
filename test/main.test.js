@@ -2,7 +2,6 @@ import { describe, expect, it} from 'vitest';
 import { composer } from '../src/main.js';
 
 describe('composer', () => {
-    // possible breaking change.  previously returned abc as string
     it('should just return normal buildArgs if no provided parameters.', () =>{
         process['argv'] = ['..', '..', '--abc=123'];
         expect(composer()).toMatchObject({
@@ -11,14 +10,12 @@ describe('composer', () => {
         })
 
     });
-    // possible breaking change.  previously returned abc as string
     it('should just return normal buildingArgs if only args is provided', () => {
         expect(composer(['--abc=456'], undefined)).toMatchObject({
             _:[],
             abc: 456
         })
     })
-    // possible breaking change.  previously returned abc as string
     it('should include missing properties provided through options', () => {
         const options = {properties: {bde: 'yes'}};
         expect(composer(['--abc=456'], options)).toMatchObject({
@@ -27,7 +24,6 @@ describe('composer', () => {
             bde: 'yes'
         })
     })
-    // possible breaking change.  previously xy was number, yet provided was a string.
     it('should override properties provided through options', () => {
         const options = {properties: {bde: 'yes', abc: '123', xy: '321'}};
         expect(composer(['--abc=456'], options)).toMatchObject({
@@ -47,7 +43,6 @@ describe('composer', () => {
         expect(result.abc).toBeUndefined();
         expect(result._).toBeUndefined();
     });
-    // possible breaking change.  previously Abc was a string.
     it('should be able to ignore Case of the provided options', () => {
         const options = {properties: {Bde: 'yes', Abc: true }, strict: true, ignoreCase: true };
         const result = composer(['--abc=456'], options)
@@ -158,7 +153,6 @@ describe('composer', () => {
         });
         expect(result._).toBeDefined();
     });
-    // new
     it('should be able to pass a map for short properties only', () =>{
         const options = { map: {a: 'aProp', b: 'bProp'} };
         const result = composer(["-abc", "--a=123"], options);
